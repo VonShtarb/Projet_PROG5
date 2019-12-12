@@ -59,6 +59,8 @@ configure:2274: checking whether make supports nested variables
 configure:2291: result: yes
 configure:2425: checking whether make supports the include directive
 configure:2440: make -f confmf.GNU && cat confinc.out
+make: Warning: File 'confinc.mk' has modification time 0.0019 s in the future
+make: warning:  Clock skew detected.  Your build may be incomplete.
 this is the am__doit target
 configure:2443: $? = 0
 configure:2462: result: yes (GNU style)
@@ -104,7 +106,7 @@ configure:2940: $? = 0
 configure:2962: result: 
 configure:2984: checking whether we are cross compiling
 configure:2992: arm-none-eabi-gcc -o conftest   -nostdlib -Wl,--entry=0 conftest.c  >&5
-/tmp/ccCrUvFz.o: In function `main':
+/tmp/ccIXMSjV.o: In function `main':
 conftest.c:(.text+0x14): undefined reference to `fopen'
 conftest.c:(.text+0x3c): undefined reference to `fclose'
 collect2: error: ld returned 1 exit status
@@ -212,7 +214,7 @@ ax_cv_check_cflags__Werror__no_pie=yes
 ## Output variables. ##
 ## ----------------- ##
 
-ACLOCAL='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/missing aclocal-1.16'
+ACLOCAL='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing aclocal-1.16'
 AMDEPBACKSLASH='\'
 AMDEP_FALSE='#'
 AMDEP_TRUE=''
@@ -221,9 +223,9 @@ AM_BACKSLASH='\'
 AM_DEFAULT_V='$(AM_DEFAULT_VERBOSITY)'
 AM_DEFAULT_VERBOSITY='1'
 AM_V='$(V)'
-AUTOCONF='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/missing autoconf'
-AUTOHEADER='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/missing autoheader'
-AUTOMAKE='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/missing automake-1.16'
+AUTOCONF='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing autoconf'
+AUTOHEADER='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing autoheader'
+AUTOMAKE='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing automake-1.16'
 AWK='gawk'
 CC='arm-none-eabi-gcc'
 CCAS='arm-none-eabi-gcc'
@@ -251,7 +253,7 @@ LDFLAGS=''
 LIBOBJS=''
 LIBS=''
 LTLIBOBJS=''
-MAKEINFO='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/missing makeinfo'
+MAKEINFO='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing makeinfo'
 MKDIR_P='/bin/mkdir -p'
 OBJEXT='o'
 PACKAGE='arm-examples'
@@ -293,7 +295,7 @@ host_alias='arm-none-eabi'
 htmldir='${docdir}'
 includedir='${prefix}/include'
 infodir='${datarootdir}/info'
-install_sh='${SHELL} /home/m/morejere/Bureau/CESTNOREPROJET/elf_linker-1.0/build-aux/install-sh'
+install_sh='${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/install-sh'
 libdir='${exec_prefix}/lib'
 libexecdir='${exec_prefix}/libexec'
 localedir='${datarootdir}/locale'
