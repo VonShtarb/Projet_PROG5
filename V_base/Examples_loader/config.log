@@ -59,7 +59,7 @@ configure:2274: checking whether make supports nested variables
 configure:2291: result: yes
 configure:2425: checking whether make supports the include directive
 configure:2440: make -f confmf.GNU && cat confinc.out
-make: Warning: File 'confinc.mk' has modification time 0.0019 s in the future
+make: Warning: File 'confinc.mk' has modification time 0.029 s in the future
 make: warning:  Clock skew detected.  Your build may be incomplete.
 this is the am__doit target
 configure:2443: $? = 0
@@ -106,7 +106,7 @@ configure:2940: $? = 0
 configure:2962: result: 
 configure:2984: checking whether we are cross compiling
 configure:2992: arm-none-eabi-gcc -o conftest   -nostdlib -Wl,--entry=0 conftest.c  >&5
-/tmp/ccIXMSjV.o: In function `main':
+/tmp/cc6GfgJr.o: In function `main':
 conftest.c:(.text+0x14): undefined reference to `fopen'
 conftest.c:(.text+0x3c): undefined reference to `fclose'
 collect2: error: ld returned 1 exit status
@@ -168,6 +168,7 @@ on f204-11
 
 config.status:850: creating Makefile
 config.status:850: creating config.h
+config.status:1031: config.h is unchanged
 config.status:1079: executing depfiles commands
 
 ## ---------------- ##
