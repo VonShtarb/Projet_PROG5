@@ -60,6 +60,8 @@ configure:2303: result: yes
 configure:2437: checking whether make supports the include directive
 configure:2452: make -f confmf.GNU && cat confinc.out
 make[2]: Entering directory '/home/d/duboilor/Proj/Projet_PROG5/V_base/Examples_loader'
+make[2]: Warning: File 'confinc.mk' has modification time 0.0037 s in the future
+make[2]: warning:  Clock skew detected.  Your build may be incomplete.
 make[2]: Leaving directory '/home/d/duboilor/Proj/Projet_PROG5/V_base/Examples_loader'
 this is the am__doit target
 configure:2455: $? = 0
@@ -106,7 +108,7 @@ configure:2952: $? = 0
 configure:2974: result: 
 configure:2996: checking whether we are cross compiling
 configure:3004: arm-none-eabi-gcc -o conftest   -nostdlib -Wl,--entry=0 conftest.c  >&5
-/tmp/ccv5CTr6.o: In function `main':
+/tmp/ccZ3LkeE.o: In function `main':
 conftest.c:(.text+0x14): undefined reference to `fopen'
 conftest.c:(.text+0x3c): undefined reference to `fclose'
 collect2: error: ld returned 1 exit status
