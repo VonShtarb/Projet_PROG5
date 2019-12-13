@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <elf.h>
+#include <string.h>
 
 void print_header( Elf64_Ehdr elfulu){
-    
+
     printf("ident:\t%c%c%c\n",elfulu.e_ident[1],elfulu.e_ident[2],elfulu.e_ident[3]);
     printf("ident class:\t");
     switch(elfulu.e_ident[4]){
@@ -16,7 +17,7 @@ void print_header( Elf64_Ehdr elfulu){
         case 2:
             printf("2 - 64 bit obj\n");
             break;
-        default: 
+        default:
             printf("\n");
     }
     printf("ident data:\t");
@@ -30,7 +31,7 @@ void print_header( Elf64_Ehdr elfulu){
         case 2:
             printf("2 - Big endian (ex:CA FE)\n");
             break;
-        default: 
+        default:
             printf("\n");
     }
     printf("ident version:\t%d\n", elfulu.e_ident[EI_VERSION]);
@@ -66,7 +67,7 @@ void print_header( Elf64_Ehdr elfulu){
             break;
         case 1:
             printf("1 - current version\n");
-            break;     
+            break;
     }
     printf("entry:\t%ld\n",elfulu.e_entry);
     printf("phoff:\t%ld\n",elfulu.e_phoff);
@@ -81,8 +82,8 @@ void print_header( Elf64_Ehdr elfulu){
 }
 
 
-Elf64_Ehdr readheader(char* name){
-    FILE* f;    
+Elf64_Ehdr load_header(char* name){
+    FILE* f;
     Elf64_Ehdr header;
     f=fopen(name, "rb");
     if (f== NULL){
@@ -96,33 +97,44 @@ Elf64_Ehdr readheader(char* name){
     return header;
 }
 
+liste_elf64_sym load_symb(char *file, Elf64_Ehdr header, tableausection){
+    int error;
+    //creation liste symb
+    liste_elf64_sym liste_symb;
+    creer_liste(&liste_symb, header->e_shnum);
+    // Pour chaque section s
+    for (int i=0; i< header->e_shnum){
+        // Si s.type = symb
+        if (sections[i].sh_type == SHT_SYMTAB){
+            // ajout dans liste
+            int ajouter(&liste_symb,sections[i]);
+        }
+    }
+    //retourn liste
+    return liste_symb;
+}
 
-Elf64_Shdr load_elf_sec(char *file,int sec){
-
-  Elf64_Ehdr converted_file = readheader(file);
+Elf64_Shdr load_elf_sec(FILE *file, int sec, Elf64_Ehdr converted_file ){
   Elf64_Shdr elf_session;
-  FILE *f = fopen(file,"rb");
-  if(f) {
-    fseek(f, converted_file.e_shoff, SEEK_SET);
-    int n = fread(&elf_session, 1, sizeof(elf_session), f);
+  if(file) {
+    fseek(file, converted_file.e_shoff, SEEK_SET);
+    int n = fread(&elf_session, 1, sizeof(elf_session), file);
      for(int i=0; i<sec; i++){
-       fseek(f, elf_session.sh_size, SEEK_CUR);
-       n = fread(&elf_session, 1, sizeof(elf_session), f);
+       n = fread(&elf_session, 1, sizeof(elf_session), file);
      }
     printf("%d octets lu\n", n);
     }
-  printf("%d\n", elf_session.sh_name);
   return elf_session;
 }
 
-int main_section(char* name_file){
-  load_elf_sec(name_file,1);
+int main_section(char* name_file, int nb){
+  load_elf_sec(name_file,nb);
   return 0;
 }
-int main_readheader(char* name_file ){
-    
+int main_load_header(char* name_file ){
+
     Elf64_Ehdr res;
-    res=readheader(name_file);
+    res=load_header(name_file);
     print_header(res);
     return 0;
 }
