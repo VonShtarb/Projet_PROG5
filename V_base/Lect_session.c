@@ -20,22 +20,23 @@ Elf64_Shdr load_elf_sec(char *file,int sec){
 
   Elf64_Ehdr converted_file = load_elf(file);
   Elf64_Shdr elf_session;
+  Elf64_Shdr temp;
   FILE *f = fopen(file,"rb");
   if(f) {
     fseek(f, converted_file.e_shoff, SEEK_SET);
     int n = fread(&elf_session, 1, sizeof(elf_session), f);
      for(int i=0; i<sec; i++){
        fseek(f, elf_session.sh_size, SEEK_CUR);
-       n = fread(&elf_session, 1, sizeof(elf_session), f);
+       n = fread(&elf_session, 1, sizeof(temp), f);
      }
     printf("%d octets lu\n", n);
     }
-  printf("%d\n", elf_session.sh_name);
+  printf("%d\n", elf_session.sh_type);
   return elf_session;
 }
 
 int main(){
-  char * fic = "ARM_runner_example";
-  load_elf_sec(fic,1);
+  char * fic = "./ARM_runner_example";
+  load_elf_sec(fic,2);
   return 0;
 }
