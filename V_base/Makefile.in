@@ -86,7 +86,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = ARM_runner_example$(EXEEXT) Lect_session$(EXEEXT)
+bin_PROGRAMS = ARM_runner_example$(EXEEXT) Lect_session$(EXEEXT) \
+	Lecture$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/hostsubdir.m4 \
@@ -114,6 +115,10 @@ am_Lect_session_OBJECTS = Lect_session.$(OBJEXT)
 Lect_session_OBJECTS = $(am_Lect_session_OBJECTS)
 Lect_session_LDADD = $(LDADD)
 Lect_session_DEPENDENCIES =
+am_Lecture_OBJECTS = lecture.$(OBJEXT)
+Lecture_OBJECTS = $(am_Lecture_OBJECTS)
+Lecture_LDADD = $(LDADD)
+Lecture_DEPENDENCIES =
 AM_V_P = $(am__v_P_@AM_V@)
 am__v_P_ = $(am__v_P_@AM_DEFAULT_V@)
 am__v_P_0 = false
@@ -148,8 +153,10 @@ am__v_LEX_ = $(am__v_LEX_@AM_DEFAULT_V@)
 am__v_LEX_0 = @echo "  LEX     " $@;
 am__v_LEX_1 = 
 YLWRAP = $(top_srcdir)/build-aux/ylwrap
-SOURCES = $(ARM_runner_example_SOURCES) $(Lect_session_SOURCES)
-DIST_SOURCES = $(ARM_runner_example_SOURCES) $(Lect_session_SOURCES)
+SOURCES = $(ARM_runner_example_SOURCES) Lect_session.c \
+	$(Lecture_SOURCES)
+DIST_SOURCES = $(ARM_runner_example_SOURCES) Lect_session.c \
+	$(Lecture_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -348,7 +355,8 @@ COMMON = debug.h debug.c util.h util.c
 EXTRA_DIST = filtre.pl sample_run.sh
 SIMULATOR_INTERFACE = csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
 ARM_runner_example_SOURCES = $(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
-Lect_session_SOURCES = Lect_session.c
+Lect_session = Lect_session.c
+Lecture_SOURCES = lecture.c lecture.h 
 all: all-recursive
 
 .SUFFIXES:
@@ -437,6 +445,10 @@ Lect_session$(EXEEXT): $(Lect_session_OBJECTS) $(Lect_session_DEPENDENCIES) $(EX
 	@rm -f Lect_session$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(Lect_session_OBJECTS) $(Lect_session_LDADD) $(LIBS)
 
+Lecture$(EXEEXT): $(Lecture_OBJECTS) $(Lecture_DEPENDENCIES) $(EXTRA_Lecture_DEPENDENCIES) 
+	@rm -f Lecture$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(Lecture_OBJECTS) $(Lecture_LDADD) $(LIBS)
+
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
 
@@ -449,6 +461,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/csapp.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/debug.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/gdb_protocol.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/lecture.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/scanner.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/util.Po@am__quote@
 

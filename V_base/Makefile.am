@@ -18,6 +18,7 @@ SUBDIRS+=. Examples_loader
 bin_PROGRAMS=
 bin_PROGRAMS+=ARM_runner_example
 bin_PROGRAMS+=Lect_session
+bin_PROGRAMS+=Lecture
 
 
 COMMON=debug.h debug.c util.h util.c
@@ -27,5 +28,7 @@ SIMULATOR_INTERFACE=csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_proto
 
 ARM_runner_example_SOURCES=$(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
 Lect_session_SOURCES=Lect_session.c
+
+Lecture_SOURCES=lecture.c lecture.h 
 
 EXTRA_DIST+=sample_run.sh
