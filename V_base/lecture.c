@@ -4,6 +4,17 @@
 #include <elf.h>
 #include <string.h>
 
+u_int32_t invert_endian_32(u_int32_t val){
+	u_int32_t result = 0;; 
+	u_int8_t temp = (val << 28) >> 28;
+	result = (u_int8_t) temp;
+	for(int i = 1; i <= 4; i++){
+		temp = (val << (32-8*i)) >> 24;
+		result = (result << 8) + temp;
+	}
+	return result;
+}
+
 void print_header( Elf64_Ehdr elfulu){
 
     printf("ident:\t%c%c%c\n",elfulu.e_ident[1],elfulu.e_ident[2],elfulu.e_ident[3]);
@@ -98,10 +109,10 @@ Elf64_Ehdr load_header(char* name){
     return header;
 }
 
-liste_elf64_sym load_symb(char *file, Elf64_Ehdr header, tableausection){
+liste_Elf64_sym load_symb(char *file, Elf64_Ehdr header, tableausection){
     int error;
     //creation liste symb
-    liste_elf64_sym liste_symb;
+    liste_Elf64_sym liste_symb;
     creer_liste(&liste_symb, header->e_shnum);
     // Pour chaque section s
     for (int i=0; i< header->e_shnum){
@@ -116,21 +127,21 @@ liste_elf64_sym load_symb(char *file, Elf64_Ehdr header, tableausection){
 }
 
 Elf64_Shdr load_elf_sec(FILE *file, int sec, Elf64_Ehdr converted_file ){
-  Elf64_Shdr elf_session;
-  if(file) {
-    fseek(file, converted_file.e_shoff, SEEK_SET);
-    int n = fread(&elf_session, 1, sizeof(elf_session), file);
-     for(int i=0; i<sec; i++){
-       n = fread(&elf_session, 1, sizeof(elf_session), file);
-     }
-    printf("%d octets lu\n", n);
+    Elf64_Shdr elf_session;
+    if(file) {
+        fseek(file, converted_file.e_shoff, SEEK_SET);
+        int n = fread(&elf_session, 1, sizeof(elf_session), file);
+        for(int i=0; i<sec; i++){
+            n = fread(&elf_session, 1, sizeof(elf_session), file);
+        }
+        printf("%d octets lu\n", n);
     }
-  return elf_session;
+    return elf_session;
 }
 
 int main_section(char* name_file, int nb){
-  load_elf_sec(name_file,nb);
-  return 0;
+    load_elf_sec(name_file,nb);
+    return 0;
 }
 int main_readheader(char* name_file ){
     Elf64_Ehdr res;
