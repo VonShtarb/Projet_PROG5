@@ -1,4 +1,5 @@
 # make and build files
+Makefile 
 *.lst
 *.o
 *.eep
@@ -6,3 +7,4 @@
 *.map
 *.sym
 ./build-aux/*
+./Examples_loader/*
