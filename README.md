@@ -14,8 +14,12 @@ Steps to compile files :
 
 execution : ``./ARM_runner_example  -<<A | B | C | D | H >>  (optional)<< num section | name section >>``
 > A : display header
+
 > B : display section table
+
 > C : display a particular section __(given by optional parameter : section's name/num)__
+
 > D : display symbol table
+
 > H : display help
 
