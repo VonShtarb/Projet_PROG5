@@ -1,0 +1,24 @@
+# make and build files
+/Makefile
+/Makefile.in
+/m4
+*.lst
+*.o
+*.eep
+*.lss
+*.map
+*.sym
+/build-aux/*
+/Examples_loader/*
+/.deps/*
+/autom4te.cache/*
+/config.log
+/config.status
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
