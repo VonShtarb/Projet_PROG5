@@ -1,7 +1,9 @@
 
 #include "type_liste_symb.h"
 
-/* Créer une liste vide */
+/* Initialisation */
+
+/* Creer une liste vide */
 void creer_liste(liste_elf32_sym * p,int taille){
 	p->n=0;
 	p->taille_max = taille;

@@ -1,8 +1,11 @@
 
 #include "affichage.h"
 
-/****************************PRINTS**********************************/
-//1.1
+/*
+                Partie 1.1
+Affiche le header du fichier elf
+Arguments:    Elf32_Ehdr header: header du fichier en little endian
+*/
 void print_header( Elf32_Ehdr header){ 
     printf("ident:\t%c%c%c\n",header.e_ident[1],header.e_ident[2],header.e_ident[3]);
     printf("ident class:\t");
@@ -79,7 +82,15 @@ void print_header( Elf32_Ehdr header){
     printf("shnum:\t%hd\n",header.e_shnum);
     printf("shstrndx:\t%hd\n",header.e_shstrndx);
 }
-//1.2
+
+
+/*
+                Partie 1.2
+Affiche la table de section
+Arguments:      Elf32_Shdr sectionheaders[]: table de sections
+                int size: nombre de section dans la table de section
+                char* stringtable: table de string
+*/
 void print_section_table(Elf32_Shdr sectionheaders[], int size, char* stringtable){
     Elf32_Shdr header;
     char* name;
@@ -200,7 +211,7 @@ void print_section_table(Elf32_Shdr sectionheaders[], int size, char* stringtabl
                 printf("%s\t\t", strflags);
         }
         printf("%x\t\t", header.sh_offset); // decalage/debut
-        name = stringtable + header.sh_name;
+        name = stringtable + header.sh_name;// On recupere le nom dans la table de symbole
         printf("%s\t", name);
         printf("\n");
         
@@ -212,7 +223,14 @@ void print_section_table(Elf32_Shdr sectionheaders[], int size, char* stringtabl
     printf("W : SHF_WRITE\n");
 }
 
-//1.3
+/*
+                Partie 1.3
+Affiche la table de section
+Retour:         
+Arguments:      Elf32_Shdr section: la section a afficher
+                FILE *f: fichier elf ouvert au prealable
+                char* nameSec: table de string
+*/
  int print_section(Elf32_Shdr section, FILE *f, char * nameSec) {
   fseek(f, section.sh_offset, SEEK_SET);
   char sectionString[section.sh_size];
@@ -261,73 +279,34 @@ void print_section_table(Elf32_Shdr sectionheaders[], int size, char* stringtabl
   return 0;
 
 }
+
+
 /*
-  fseek(f, section.sh_offset, SEEK_SET);
-  //fseek(f, section.sh_entsize, SEEK_SET);
-  char sectionString[section.sh_size];
-  int n;
-  if((n = fread(&sectionString, 1, section.sh_size, f)) == 0) {
-    return -1;
-  }
-  for (int i = 0; i<section.sh_size; i++){
-    if((n = fscanf(f, "%c", &(sectionString[i])) == 0))
-      return -1;
-  }
-
-  printf("\nVidange hexadécimale de la section << %s >> :\n",nameSec+section.sh_name);
-    for (int y=0;y<section.sh_size;y+=16){
-      //affichage de la ligne d'adresse
-    printf("0x%.8x ",section.sh_addr+y);
-
-    //affichage version hexa
-    for(int i=0;i<16;i++){
-      if(i%4==0)
-        printf(" ");
-      if(i+y<section.sh_size){
-        if(sectionString[i+y]=='\x0'){
-          printf("00");
-        }
-        else if(sectionString[i+y]>>16=='\xff')
-          printf("%x",(sectionString[i+y])&(0xff) );
-        else
-          printf("%x",sectionString[i+y]);
-        }
-      else
-        printf("  ");
-
-   }
-     printf("    ");
-    //affichage version string
-   for(int z=0;z<16;z++){
-      printf("%c",sectionString[z+y]);
-   }
-   printf("\n");
-  }
-  printf("\n");
-  return 0;
-
-}*/
-
-//1.4
+                Partie 1.4
+Affiche la table de section
+Retour:         
+Arguments:      liste_elf32_sym listesymb: la table de symbole a afficher
+                char* stringtable: table de string des symboles
+*/
 void print_tablesymbol(liste_elf32_sym listesymb,char* stringtable){
     Elf32_Sym symbol;
     char* name;
     int error;
         printf("number\t");
-        printf("name\t");
+
         printf("value\t");
         printf("size\t");
         printf("lien\t");
         printf("shndx\t");
         printf("type\t");
+        printf("name\t\t");
         printf("\n");
     for (int i =0; i<taille((listesymb)); i++){
-               
+   
         error=get_symbol(listesymb, i, &(symbol));
         if(error==0){
+
             printf("%d\t", i);
-            name = stringtable + (symbol.st_name );
-            printf("%s\t",name);
             printf("0x%x\t",symbol.st_value);
             printf("%d\t",symbol.st_size);
 
@@ -404,6 +383,8 @@ void print_tablesymbol(liste_elf32_sym listesymb,char* stringtable){
                     printf("%d\t", ELF32_ST_TYPE(symbol.st_info));
                     break;
             }
+            name = stringtable + (symbol.st_name ); // On recupere le nom dans la table de symbole
+            printf("%s",name);
             printf("\n");
         }else{
             printf("Erreor on symbol table");

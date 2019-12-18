@@ -1,11 +1,12 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <elf.h>
 #include "lecture.h"
-#include "gestion_endian.h"
+//On suppose que chaque fichier lu est en big endian
 
-/************************* LOAD**********************/
-//Partie 1.1
+/*
+                Partie 1.1
+Recupere le header du fichier elf
+Retour :      Elf32_Ehdr : header fichier elf en big endian
+Arguments:    char* name : nom du fichier a ouvrir
+*/
 Elf32_Ehdr load_header(char* name){
     FILE* f;    
     Elf32_Ehdr header;
@@ -21,7 +22,13 @@ Elf32_Ehdr load_header(char* name){
     return header;
 }
 
-//Partie 1.2
+/*
+            Partie 1.2
+Recupere une section du fichier elf
+Retour :        Elf32_Shdr : header d une section en big endian
+Arguments:      char* name : nom du fichier a ouvrir
+                int offset : le numero de bit a partir duquel charger le fichier 
+*/
 Elf32_Shdr load_section(char* filename, int offset){
     FILE* file;
     file=fopen(filename, "rb");
@@ -35,7 +42,14 @@ Elf32_Shdr load_section(char* filename, int offset){
     fclose(file);
     return sectionheader; 
 }
-//Partie 1.2
+/*
+            Partie 1.2
+Recupere la table de section
+Retour: les sections de sectionheaders seront en big endian
+Arguments:      char* filename: nom du fichier
+                Elf32_Ehdr header: Header du fichier elf  en little endian
+                Elf32_Shdr sectionheaders[]:  tableau de section vide
+*/
 void load_tablesection(char* filename, Elf32_Ehdr header, Elf32_Shdr sectionheaders[] ){
     int offset = header.e_shoff;
     int sectionsize = header.e_shentsize;
@@ -46,7 +60,14 @@ void load_tablesection(char* filename, Elf32_Ehdr header, Elf32_Shdr sectionhead
     }
     return;
 }
-// Partie 1.2
+
+
+/*
+Recupere une table de string
+Retour :        char*: table de string
+Arguments:      char* filename: nom du fichier
+                int offset : le numero de bit a partir duquel se trouve la table de string
+*/
 char * load_stringtable(char *name_file, int offset){
 
     FILE* file = fopen(name_file,"rb");
@@ -63,18 +84,32 @@ char * load_stringtable(char *name_file, int offset){
     return stringtable;
 }
 
-//1.3
+
+/*
+            Partie 1.3
+Recupere le header d'une section
+Retour :        int : -1 si erreur, 0 sinon
+Arguments:      FILE *f: fichier elf ouvert au prealable
+                Elf32_Shdr section: section dont on doit recuperer le header en little endian
+                char *sectionHeader: Variable dans laquelle le header de la section sera mis en big endian
+*/
 int load_section_header(FILE *f, Elf32_Shdr section, char *sectionHeader) {
-  fseek(f, section.sh_offset, SEEK_SET);
-  int n;
-  n = fread(sectionHeader, 1, section.sh_entsize, f);
-  if(n == 0) {
-    return -1;
-  }
-  return 0;
+    int n;
+    fseek(f, section.sh_offset, SEEK_SET);
+    n = fread(sectionHeader, 1, section.sh_entsize, f);
+    if(n == 0) {
+        return -1;
+    }
+    return 0;
 }
 
-//Partie 1.4
+/*
+            Partie 1.4
+Recupere un symbole
+Retour :        Elf32_Sym : un Symbole en big endian
+Arguments:      char* filename: nom du fichier elf
+                int offset: le numero de bit a partir duquel se trouve le symbole
+*/
 Elf32_Sym load_symb(char* filename, int offset){
     Elf32_Sym symb; 
     FILE* file; 
@@ -88,20 +123,53 @@ Elf32_Sym load_symb(char* filename, int offset){
     fclose(file);
     return symb;
 }
-//Partie 1.4
+
+/*
+            Partie 1.4
+Recupere la table de symbole
+Arguments:      char* file: nom du fichier elf 
+                Elf32_Ehdr header: header du fichier elf en little endian
+                Elf32_Shdr section[]: tableau avec toutes les sections avec les sections en little endians
+                liste_elf32_sym* list_symb: liste qui contiendra tous les symboles (qui seront en big endian): represente la table de symbole
+*/
 void load_tablesymbole(char* file,Elf32_Ehdr header, Elf32_Shdr section[], liste_elf32_sym* list_symb){
     int errore=-1;
     int offs;
     Elf32_Sym symbole;
     for (int i=0; i<header.e_shnum; i++){
-        if (section[i].sh_type==2){
+        // SHT_SYMTAB ==2
+        //On cherche la section qui contient les symboles
+        if (section[i].sh_type==SHT_SYMTAB){ 
             offs = section[i].sh_offset;
+            //Quand on l a trouve on charge chaque symbole, on l ajoute a la table de symbole et on prepare la lecture du prochain symbole
             while (offs <section[i].sh_offset+ section[i].sh_size){
                 symbole=load_symb(file, offs); 
-                offs = sizeof(symbole) + offs;
                 errore=ajouter(list_symb, symbole);  
+                offs = sizeof(symbole) + offs;
                 if(errore){}
             }
         }
     }
+}
+
+/*
+            Partie 1.4
+Recupere l emplacement de la table de string des symboles
+Retour:         le numero de bit a partir duquel se trouve la table de string
+Arguments:      Elf32_Ehdr header: header du fichier elf en little endian
+                Elf32_Shdr section[]: tableau avec toutes les sections avec chaque section en little endian
+                char* stringtable: la table de string // venant du header \\
+*/
+int load_offset_symb(Elf32_Ehdr header, Elf32_Shdr section[], char* stringtable){
+    char* name;
+    for (int i=0; i<header.e_shnum; i++){
+        //On regarde quel section correpond a la table de string pour les symboles
+        if (section[i].sh_type==SHT_STRTAB){
+            name = stringtable + section[i].sh_name;
+            if (strcmp(name, ".strtab")==0){
+                return ((i*header.e_shentsize)+header.e_shoff); // On renvoie son emplacement
+            }
+        }
+    }
+    return 0;
 }

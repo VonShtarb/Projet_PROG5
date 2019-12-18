@@ -2,14 +2,46 @@
 
 #define _MAINS_H_
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <elf.h>
 #include "type_liste_symb.h"
-//1.1
+#include "lecture.h"
+#include "affichage.h"
+#include "gestion_endian.h"
+/*
+			Partie 1
+			Cas -A
+Demande d affichage d un header du fichier elf
+Arguments:		char* name_file: nom du fichier a ouvrir
+*/
 int main_load_header(char* name_file );
-//1.2
+
+/*
+			Partie 2
+			Cas -B
+Demande d affichage de la table de section
+Arguments:		char* name_file: nom du fichier a ouvrir
+*/
 int main_read_section_table(char* name_file);
-//1.3
+
+/*
+			Partie 3
+			Cas -C
+Demande d affichage d un header de section
+Arguments:		char* name_file: nom du fichier a ouvrir
+ 				char* val: soit - le numero de section
+				 				- le nom de la section
+*/
 int main_section(char* name_file, char* val);
-//1.4
+
+
+/*
+			Partie 4
+			Cas -D
+Demande d affichage d un header de section
+Arguments:		char* name_file: nom du fichier a ouvrir
+*/
 int main_table_symbole(char* name_file);
 
 #endif
