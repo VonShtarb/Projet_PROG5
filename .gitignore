@@ -1,6 +1,6 @@
 # make and build files
-./V_base/Makefile
-./V_base/Makefile.in
+/V_base/Makefile
+/V_base/Makefile.in
 *.lst
 *.o
 *.eep
