@@ -1,10 +1,23 @@
 # make and build files
 ./V_base/Makefile
+./V_bae/Makefile.in
 *.lst
 *.o
 *.eep
 *.lss
 *.map
 *.sym
-./build-aux/*
-./Examples_loader/*
+/build-aux/*
+/V_Base/Examples_loader/*
+/V_Base/.deps/*
+/autom4te.cache/*
+/config.log
+/config.status
+
+# Executables
+*.exe
+*.out
+*.app
+*.i*86
+*.x86_64
+*.hex
