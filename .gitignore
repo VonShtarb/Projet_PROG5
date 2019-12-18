@@ -7,13 +7,13 @@
 *.lss
 *.map
 *.sym
-/build-aux/*
-/V_Base/Examples_loader/*
-/V_Base/.deps/*
-/autom4te.cache/*
-/config.log
-/config.status
-/m4
+/V_base/build-aux/*
+/V_base/Examples_loader/*
+/V_base/.deps/*
+/V_base/autom4te.cache/*
+/V_base/config.log
+/V_base/config.status
+/V_base/m4
 
 # Executables
 *.exe
