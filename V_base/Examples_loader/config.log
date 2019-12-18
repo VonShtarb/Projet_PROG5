@@ -104,7 +104,7 @@ configure:2952: $? = 0
 configure:2974: result: 
 configure:2996: checking whether we are cross compiling
 configure:3004: arm-none-eabi-gcc -o conftest   -nostdlib -Wl,--entry=0 conftest.c  >&5
-/tmp/cccARavW.o: In function `main':
+/tmp/ccfMbNJF.o: In function `main':
 conftest.c:(.text+0x14): undefined reference to `fopen'
 conftest.c:(.text+0x3c): undefined reference to `fclose'
 collect2: error: ld returned 1 exit status
