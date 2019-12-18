@@ -23,8 +23,12 @@ Contact: Guillaume.Huard@imag.fr
 #include <getopt.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <elf.h>
+
 #include "debug.h"
 #include "arm_simulator_interface.h"
+#include "mains.h"
+#include "gestion_endian.h"
 
 void usage(char *name) {
 	fprintf(stderr, "Usage:\n"
@@ -67,12 +71,22 @@ int main(int argc, char *argv[]) {
 		{ "host", required_argument, NULL, 'H' },
 		{ "service", required_argument, NULL, 'S' },
 		{ "help", no_argument, NULL, 'h' },
+        { "Affichage header", required_argument, NULL, 'A' },
+		{ "Affichage table de section", required_argument, NULL, 'B' },
+		{ "Affichage section", required_argument, NULL, 'C' },
+		{ "Affichage table de symboles", required_argument, NULL, 'D' },
 		{ NULL, 0, NULL, 0 }
 	};
 
-	hostname = NULL;
-	servicename = NULL;
-	while ((opt = getopt_long(argc, argv, "S:H:d:h", longopts, NULL)) != -1) {
+	//hostname = NULL;
+	//servicename = NULL;
+	char* name_file;
+	if (argc<3){
+                printf("Mauvais nb d arguments");
+                exit(1);
+            }
+	name_file = argv[2];
+	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D", longopts, NULL)) != -1) {
 		switch(opt) {
 		case 'H':
 			hostname = optarg;
@@ -86,13 +100,30 @@ int main(int argc, char *argv[]) {
 		case 'd':
 			add_debug_to(optarg);
 			break;
+        case 'A':
+            main_load_header(name_file);
+            break;
+		case 'B':
+
+            main_read_section_table(name_file);
+            break;
+		case 'C':
+            if (argc<4){
+                printf("Mauvais nb d arguments");
+                exit(1);
+            }
+            main_section(name_file, argv[3]);
+            break;
+		case 'D':
+            main_table_symbole(name_file);
+            break;
 		default:
 			fprintf(stderr, "Unrecognized option %c\n", opt);
 			usage(argv[0]);
 			exit(1);
 		}
 	}
-
-	sample_run(hostname, servicename);
+	//sample_run(hostname, servicename);
 	return 0;
+
 }

@@ -1,6 +1,6 @@
 ACLOCAL_AMFLAGS = -I m4
 
-AM_CFLAGS=-Wall -Werror -g
+AM_CFLAGS=-Wall -g
 AM_CFLAGS+=-D DEBUG
 AM_CFLAGS+=-D WARNING
 AM_CFLAGS+=-D BIG_ENDIAN_SIMULATOR
@@ -17,18 +17,17 @@ SUBDIRS+=. Examples_loader
 
 bin_PROGRAMS=
 bin_PROGRAMS+=ARM_runner_example
-bin_PROGRAMS+=Lect_session
-bin_PROGRAMS+=Lecture
+bin_PROGRAMS+=test_section
+bin_PROGRAMS+=fusion
 
-
-COMMON=debug.h debug.c util.h util.c
+COMMON=debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h
 
 EXTRA_DIST=filtre.pl
 SIMULATOR_INTERFACE=csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
 
 ARM_runner_example_SOURCES=$(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
-Lect_session_SOURCES=Lect_session.c
-
-Lecture_SOURCES=lecture.c lecture.h 
+test_section_SOURCES=$(COMMON) sectionTest.c
+fusion_SOURCES=$(COMMON) fusion.c
 
 EXTRA_DIST+=sample_run.sh
+

@@ -86,7 +86,8 @@ POST_INSTALL = :
 NORMAL_UNINSTALL = :
 PRE_UNINSTALL = :
 POST_UNINSTALL = :
-bin_PROGRAMS = ARM_runner_example$(EXEEXT) Lect_session$(EXEEXT)
+bin_PROGRAMS = ARM_runner_example$(EXEEXT) test_section$(EXEEXT) \
+	fusion$(EXEEXT)
 subdir = .
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/m4/hostsubdir.m4 \
@@ -102,7 +103,9 @@ CONFIG_CLEAN_FILES =
 CONFIG_CLEAN_VPATH_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 PROGRAMS = $(bin_PROGRAMS)
-am__objects_1 = debug.$(OBJEXT) util.$(OBJEXT)
+am__objects_1 = debug.$(OBJEXT) util.$(OBJEXT) \
+	type_liste_symb.$(OBJEXT) lecture.$(OBJEXT) \
+	affichage.$(OBJEXT) mains.$(OBJEXT) gestion_endian.$(OBJEXT)
 am__objects_2 = csapp.$(OBJEXT) scanner.$(OBJEXT) \
 	gdb_protocol.$(OBJEXT) arm_simulator_interface.$(OBJEXT)
 am_ARM_runner_example_OBJECTS = $(am__objects_1) $(am__objects_2) \
@@ -110,10 +113,14 @@ am_ARM_runner_example_OBJECTS = $(am__objects_1) $(am__objects_2) \
 ARM_runner_example_OBJECTS = $(am_ARM_runner_example_OBJECTS)
 ARM_runner_example_LDADD = $(LDADD)
 ARM_runner_example_DEPENDENCIES =
-am_Lect_session_OBJECTS = Lect_session.$(OBJEXT)
-Lect_session_OBJECTS = $(am_Lect_session_OBJECTS)
-Lect_session_LDADD = $(LDADD)
-Lect_session_DEPENDENCIES =
+am_fusion_OBJECTS = $(am__objects_1) fusion.$(OBJEXT)
+fusion_OBJECTS = $(am_fusion_OBJECTS)
+fusion_LDADD = $(LDADD)
+fusion_DEPENDENCIES =
+am_test_section_OBJECTS = $(am__objects_1) sectionTest.$(OBJEXT)
+test_section_OBJECTS = $(am_test_section_OBJECTS)
+test_section_LDADD = $(LDADD)
+test_section_DEPENDENCIES =
 AM_V_P = $(am__v_P_$(V))
 am__v_P_ = $(am__v_P_$(AM_DEFAULT_VERBOSITY))
 am__v_P_0 = false
@@ -148,8 +155,10 @@ am__v_LEX_ = $(am__v_LEX_$(AM_DEFAULT_VERBOSITY))
 am__v_LEX_0 = @echo "  LEX     " $@;
 am__v_LEX_1 = 
 YLWRAP = $(top_srcdir)/build-aux/ylwrap
-SOURCES = $(ARM_runner_example_SOURCES) $(Lect_session_SOURCES)
-DIST_SOURCES = $(ARM_runner_example_SOURCES) $(Lect_session_SOURCES)
+SOURCES = $(ARM_runner_example_SOURCES) $(fusion_SOURCES) \
+	$(test_section_SOURCES)
+DIST_SOURCES = $(ARM_runner_example_SOURCES) $(fusion_SOURCES) \
+	$(test_section_SOURCES)
 RECURSIVE_TARGETS = all-recursive check-recursive cscopelist-recursive \
 	ctags-recursive dvi-recursive html-recursive info-recursive \
 	install-data-recursive install-dvi-recursive \
@@ -242,12 +251,12 @@ distuninstallcheck_listfiles = find . -type f -print
 am__distuninstallcheck_listfiles = $(distuninstallcheck_listfiles) \
   | sed 's|^\./|$(prefix)/|' | grep -v '$(infodir)/dir$$'
 distcleancheck_listfiles = find . -type f -print
-ACLOCAL = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/missing aclocal-1.15
+ACLOCAL = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing aclocal-1.15
 AMTAR = $${TAR-tar}
 AM_DEFAULT_VERBOSITY = 1
-AUTOCONF = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/missing autoconf
-AUTOHEADER = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/missing autoheader
-AUTOMAKE = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/missing automake-1.15
+AUTOCONF = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing autoconf
+AUTOHEADER = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing autoheader
+AUTOMAKE = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing automake-1.15
 AWK = gawk
 CC = gcc
 CCDEPMODE = depmode=gcc3
@@ -276,7 +285,7 @@ LEX_OUTPUT_ROOT = lex.yy
 LIBOBJS = 
 LIBS = 
 LTLIBOBJS = 
-MAKEINFO = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/missing makeinfo
+MAKEINFO = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/missing makeinfo
 MKDIR_P = /bin/mkdir -p
 OBJEXT = o
 PACKAGE = elf_linker
@@ -291,10 +300,10 @@ SET_MAKE =
 SHELL = /bin/bash
 STRIP = 
 VERSION = 1.0
-abs_builddir = /home/d/duboilor/Proj/Projet_PROG5/V_base
-abs_srcdir = /home/d/duboilor/Proj/Projet_PROG5/V_base
-abs_top_builddir = /home/d/duboilor/Proj/Projet_PROG5/V_base
-abs_top_srcdir = /home/d/duboilor/Proj/Projet_PROG5/V_base
+abs_builddir = /home/m/morejere/Projet_PROG5/V_base
+abs_srcdir = /home/m/morejere/Projet_PROG5/V_base
+abs_top_builddir = /home/m/morejere/Projet_PROG5/V_base
+abs_top_srcdir = /home/m/morejere/Projet_PROG5/V_base
 ac_ct_CC = gcc
 am__include = include
 am__leading_dot = .
@@ -313,7 +322,7 @@ host_alias =
 htmldir = ${docdir}
 includedir = ${prefix}/include
 infodir = ${datarootdir}/info
-install_sh = ${SHELL} /home/d/duboilor/Proj/Projet_PROG5/V_base/build-aux/install-sh
+install_sh = ${SHELL} /home/m/morejere/Projet_PROG5/V_base/build-aux/install-sh
 libdir = ${exec_prefix}/lib
 libexecdir = ${exec_prefix}/libexec
 localedir = ${datarootdir}/locale
@@ -336,19 +345,19 @@ top_build_prefix =
 top_builddir = .
 top_srcdir = .
 ACLOCAL_AMFLAGS = -I m4
-AM_CFLAGS = -Wall -Werror -g -D DEBUG -D WARNING -D \
-	BIG_ENDIAN_SIMULATOR
+AM_CFLAGS = -Wall -g -D DEBUG -D WARNING -D BIG_ENDIAN_SIMULATOR
 # Uncomment if performance when running with -DDEBUG is an issue
 # Warning, if uncommented, issuing calls to debug functions during options
 # parsing might result in debug flag incorrectly set to 0 for some files
 #AM_CFLAGS+=-D CACHE_DEBUG_FLAG
 LDADD = -lpthread
 SUBDIRS = . Examples_loader
-COMMON = debug.h debug.c util.h util.c
+COMMON = debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h
 EXTRA_DIST = filtre.pl sample_run.sh
 SIMULATOR_INTERFACE = csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
 ARM_runner_example_SOURCES = $(COMMON) $(SIMULATOR_INTERFACE) ARM_runner_example.c
-Lect_session_SOURCES = Lect_session.c
+test_section_SOURCES = $(COMMON) sectionTest.c
+fusion_SOURCES = $(COMMON) fusion.c
 all: all-recursive
 
 .SUFFIXES:
@@ -433,9 +442,13 @@ ARM_runner_example$(EXEEXT): $(ARM_runner_example_OBJECTS) $(ARM_runner_example_
 	@rm -f ARM_runner_example$(EXEEXT)
 	$(AM_V_CCLD)$(LINK) $(ARM_runner_example_OBJECTS) $(ARM_runner_example_LDADD) $(LIBS)
 
-Lect_session$(EXEEXT): $(Lect_session_OBJECTS) $(Lect_session_DEPENDENCIES) $(EXTRA_Lect_session_DEPENDENCIES) 
-	@rm -f Lect_session$(EXEEXT)
-	$(AM_V_CCLD)$(LINK) $(Lect_session_OBJECTS) $(Lect_session_LDADD) $(LIBS)
+fusion$(EXEEXT): $(fusion_OBJECTS) $(fusion_DEPENDENCIES) $(EXTRA_fusion_DEPENDENCIES) 
+	@rm -f fusion$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(fusion_OBJECTS) $(fusion_LDADD) $(LIBS)
+
+test_section$(EXEEXT): $(test_section_OBJECTS) $(test_section_DEPENDENCIES) $(EXTRA_test_section_DEPENDENCIES) 
+	@rm -f test_section$(EXEEXT)
+	$(AM_V_CCLD)$(LINK) $(test_section_OBJECTS) $(test_section_LDADD) $(LIBS)
 
 mostlyclean-compile:
 	-rm -f *.$(OBJEXT)
@@ -444,12 +457,18 @@ distclean-compile:
 	-rm -f *.tab.c
 
 include ./$(DEPDIR)/ARM_runner_example.Po
-include ./$(DEPDIR)/Lect_session.Po
+include ./$(DEPDIR)/affichage.Po
 include ./$(DEPDIR)/arm_simulator_interface.Po
 include ./$(DEPDIR)/csapp.Po
 include ./$(DEPDIR)/debug.Po
+include ./$(DEPDIR)/fusion.Po
 include ./$(DEPDIR)/gdb_protocol.Po
+include ./$(DEPDIR)/gestion_endian.Po
+include ./$(DEPDIR)/lecture.Po
+include ./$(DEPDIR)/mains.Po
 include ./$(DEPDIR)/scanner.Po
+include ./$(DEPDIR)/sectionTest.Po
+include ./$(DEPDIR)/type_liste_symb.Po
 include ./$(DEPDIR)/util.Po
 
 .c.o:
