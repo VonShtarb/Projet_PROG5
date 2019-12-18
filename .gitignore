@@ -1,6 +1,6 @@
 # make and build files
 ./V_base/Makefile
-./V_bae/Makefile.in
+./V_base/Makefile.in
 *.lst
 *.o
 *.eep
@@ -13,6 +13,7 @@
 /autom4te.cache/*
 /config.log
 /config.status
+/m4
 
 # Executables
 *.exe
