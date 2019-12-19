@@ -44,4 +44,12 @@ Arguments:		char* name_file: nom du fichier a ouvrir
 */
 int main_table_symbole(char* name_file);
 
+/*
+Partie 1.5
+récupèration et affichage des tables de réimplémentation
+arguments:
+	char* name_file nom du fichier concerné
+*/
+int main_relocation_table(char *name_file);
+
 #endif

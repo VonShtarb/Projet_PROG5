@@ -6,9 +6,8 @@
 #include <stdlib.h>
 #include <elf.h>
 #include "type_liste_symb.h"
+#include "elf32_reloc_table.h"
 #include "gestion_endian.h"
-
-
 
 /*
                 Partie 1.1
@@ -90,4 +89,14 @@ Arguments:      Elf32_Ehdr header: header du fichier elf en little endian
                 char* stringtable: la table de string // venant du header \\
 */
 int load_offset_symb(Elf32_Ehdr header, Elf32_Shdr section[], char* stringtable);
+
+/*
+Partie 1.5
+Récupère toutes les sections contenant des réimplémentations et leur réimplémentations
+retour:
+arguments:
+    char* filename le nom du fichier concerné
+    elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
+*/
+void load_relocation_table(char *filename, elf32_section_reloc* relocationtable);
 #endif

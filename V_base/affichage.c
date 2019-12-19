@@ -392,3 +392,81 @@ void print_tablesymbol(liste_elf32_sym listesymb,char* stringtable){
     }
 
 }
+/*
+Partie 1.5
+Association du type de la réimplémentation en chaine de caractére.
+retour: la chaine de caractere correspondante au type passé en entrée
+arguments: 
+    Elf32_Word type, le type de la réimplémentation
+    Elf32_Half le type machine utilisé
+*/
+char * get_reloc_type(Elf32_Word type, Elf32_Half machine){
+
+    struct { Elf32_Half machine; char * type; } mach[] = {
+        { EM_68K,           "R_68K"         },
+        { EM_386,           "R_386"         },
+        { EM_SPARC,         "R_SPARC"       },
+        { EM_MIPS,          "R_MIPS"        },
+        { EM_PARISC,        "R_PARISC"      },
+        { EM_ALPHA,         "R_ALPHA"       },
+        { EM_PPC,           "R_PPC"         },
+        { EM_PPC64,         "R_PPC64"       },
+        { EM_AARCH64,       "R_AARCH64"     },
+        { EM_ARM,           "R_ARM"         },
+        { EM_IA_64,         "R_IA64"        },
+        { EM_S390,          "R_S390"        },
+        { EM_CRIS,          "R_CRIS"        },
+        { EM_X86_64,        "R_X86_64"      },
+        { EM_MN10300,       "R_MN10300"     },
+        { EM_M32R,          "R_M32R"        },
+        { EM_MICROBLAZE,    "R_MICROBLAZE"  },
+        { EM_ALTERA_NIOS2,  "R_NIOS2"       },
+        { EM_TILEPRO,       "R_TILEPRO"     },
+        { EM_TILEGX,        "R_TILEGX"      },
+        { EM_BPF,           "R_BPF"         },
+        { EM_METAG,         "R_METAG"       },
+        { EM_NONE,          NULL            }
+    };
+
+    int i = 0;
+    while( (mach[i].machine != machine) && (mach[i].machine!=EM_NONE)){
+        i++;
+    }
+    return mach[i].type;
+}
+/*
+Partie 1.5
+affiche les tables de réimplémentation du fichier concerné
+retour:
+arguments: 
+    char* name_file le nom du fichier concerné
+    elf32_section_reloc la table des sections contenant des réimplémentations
+*/
+void print_relocation_table(char * name_file, elf32_section_reloc relocationtable){
+    Elf32_Ehdr header = load_header(name_file);
+    int offset = ((header.e_shstrndx*header.e_shentsize)+header.e_shoff);
+    char * stringtable = load_stringtable(name_file, offset);
+
+    
+    elf32_reloc_table currenttable;
+    for(int i=0;i<relocationtable.size;i++){
+
+        currenttable = relocationtable.table[i];
+        Elf32_Rela currentrela;
+        Elf32_Shdr currentheader = currenttable.header;
+
+        printf("\nSection de réadressage '%s' contenant %d entrées:\n", stringtable + currentheader.sh_name, currenttable.size);
+        printf("Offset\t\tInfo\t\ttype\t\tval.-symboles\tnom + Addend\n");
+
+        for(int j=0;j<currenttable.size;j++){
+            currentrela = currenttable.tabrela[j];
+            printf("%012x\t", currentrela.r_offset);
+            printf("%012x\t", currentrela.r_info);
+            printf("%s\t", get_reloc_type(ELF64_R_TYPE(currentrela.r_info), header.e_machine));
+            int sym = ELF64_R_SYM(currentrela.r_info);
+            printf("%012x\t", sym);
+            printf("%s + ", stringtable + currentrela.r_info);
+            printf("%d\n", currentrela.r_addend);
+        }
+    }
+}

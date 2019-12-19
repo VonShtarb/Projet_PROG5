@@ -173,3 +173,46 @@ int load_offset_symb(Elf32_Ehdr header, Elf32_Shdr section[], char* stringtable)
     }
     return 0;
 }
+
+/*
+Partie 1.5
+Récupère toutes les sections contenant des réimplémentations et leur réimplémentations
+retour:
+arguments:
+    char* filename le nom du fichier concerné
+    elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
+*/
+void load_relocation_table(char *filename, elf32_section_reloc* relocationtable){
+    
+    FILE* file = fopen(filename, "rb");
+    Elf32_Rela currentrela;
+    Elf32_Shdr currentheader;
+    Elf32_Ehdr header = load_header(filename);
+    Elf32_Shdr sectionheaders[header.e_shnum];
+
+    creer_section(relocationtable, 5);
+    load_tablesection(filename, header, sectionheaders);
+
+    int placeholder = 0;
+    
+    for(int i=0;i<header.e_shnum;i++){
+        currentheader = sectionheaders[i];
+        fseek(file, currentheader.sh_offset, SEEK_SET);
+
+        if(currentheader.sh_type == SHT_RELA){
+
+            int size = currentheader.sh_size / sizeof(Elf64_Rel);
+
+            elf32_reloc_table table;
+            creer_table(&table, size);
+            table.header=currentheader;
+
+            for(int j=0;j<size;j++){
+                placeholder = fread(&currentrela, 1, sizeof(Elf32_Rela), file);
+                table.tabrela[j]=currentrela;
+            }
+
+            ajouter_section(relocationtable, table);
+        }
+    }
+}

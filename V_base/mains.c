@@ -88,9 +88,10 @@ int main_section(char* name_file, char* val){
 				return -1;
 			}
 		}
-		else
+		else{
 			printf("erreur, section non trouvée\n");
 			return -3;
+		}
 		}
 	else{
 	//cas ou la section est une chaine de caracteres
@@ -161,5 +162,22 @@ int main_table_symbole(char* name_file){
 
 	free_liste(&liste_symb);	
 	free(stringtable);	
+	return 0;
+}
+/*
+Partie 1.5
+récupèration et affichage des tables de réimplémentation
+arguments:
+	char* name_file nom du fichier concerné
+*/
+int main_relocation_table(char *name_file){
+	Elf32_Ehdr header = load_header(name_file);
+	elf32_section_reloc relocationtable;
+	load_relocation_table(name_file, &relocationtable);
+	if(relocationtable.size != NULL)
+		printf("yeah boiiiii\n");
+	else
+		printf("noooooooo\n");
+	print_relocation_table(name_file, relocationtable);
 	return 0;
 }

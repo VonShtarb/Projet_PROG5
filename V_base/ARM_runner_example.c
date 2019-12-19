@@ -75,6 +75,7 @@ int main(int argc, char *argv[]) {
 		{ "Affichage table de section", required_argument, NULL, 'B' },
 		{ "Affichage section", required_argument, NULL, 'C' },
 		{ "Affichage table de symboles", required_argument, NULL, 'D' },
+		{ "Affichade des tables de réimplémentations", required_argument, NULL, 'R' },
 		{ NULL, 0, NULL, 0 }
 	};
 
@@ -86,7 +87,7 @@ int main(int argc, char *argv[]) {
                 exit(1);
             }
 	name_file = argv[2];
-	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D", longopts, NULL)) != -1) {
+	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D:R", longopts, NULL)) != -1) {
 		switch(opt) {
 		case 'H':
 			hostname = optarg;
@@ -117,6 +118,9 @@ int main(int argc, char *argv[]) {
 		case 'D':
             main_table_symbole(name_file);
             break;
+		case 'R':
+			main_relocation_table(name_file);
+			break;
 		default:
 			fprintf(stderr, "Unrecognized option %c\n", opt);
 			usage(argv[0]);
