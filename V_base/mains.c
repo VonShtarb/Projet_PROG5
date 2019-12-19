@@ -32,7 +32,7 @@ int main_read_section_table(char* name_file){
 	int offset = ((header.e_shstrndx*header.e_shentsize)+header.e_shoff);
 	char * stringtable = load_stringtable(name_file, offset);
 	//Recuperation de la table de section
-	Elf32_Shdr sectionheaders[header.e_shnum]; 
+	Elf32_Shdr sectionheaders[header.e_shnum];
 	load_tablesection(name_file, header, sectionheaders);
 	//Passage de chaque section en little endian pour avoir acces au donnees
 	for (int k = 0; k<header.e_shnum;k++){
@@ -40,7 +40,7 @@ int main_read_section_table(char* name_file){
 	}
 	//Affichage de la table de section
 	print_section_table(sectionheaders, header.e_shnum, stringtable);
-	free(stringtable);	
+	free(stringtable);
 	return 0;
 }
 
@@ -51,6 +51,10 @@ Demande d affichage d un header de section
 Arguments:		char* name_file: nom du fichier a ouvrir
  				char* val: soit - le numero de section
 				 				- le nom de la section
+retourne : -1 si le fichier n'a pas pu être ouvert
+					 -2 si le second argument est NULL
+					 -3 si la section n'existe pas
+					  0 sinon
 */
 int main_section(char* name_file, char* val){
 	//Ouverture du fichier
@@ -116,7 +120,7 @@ int main_section(char* name_file, char* val){
 			return -3;
 		}
 	}
-	free(nameSec);	
+	free(nameSec);
 
 	fclose(f);
 	return 0;
@@ -140,7 +144,7 @@ int main_table_symbole(char* name_file){
 	liste_elf32_sym liste_symb;
 	creer_liste(&(liste_symb), 5);
 	//Recuperation de la table de section
-	Elf32_Shdr sectionheaders[header.e_shnum]; 
+	Elf32_Shdr sectionheaders[header.e_shnum];
 	load_tablesection(name_file, header, sectionheaders);
 	//Passage de chaque section en little endian pour avoir acces au donnees
 	for (int k = 0; k<header.e_shnum;k++){
@@ -154,12 +158,12 @@ int main_table_symbole(char* name_file){
 	}
 	//On recupere la table de string pour les symboles
 	offset = load_offset_symb(header, sectionheaders,stringtable);
-	free(stringtable);	
+	free(stringtable);
 	stringtable = load_stringtable(name_file,offset);
 	//On affiche la table de symboles
 	print_tablesymbol(liste_symb,stringtable);
 
-	free_liste(&liste_symb);	
-	free(stringtable);	
+	free_liste(&liste_symb);
+	free(stringtable);
 	return 0;
 }
