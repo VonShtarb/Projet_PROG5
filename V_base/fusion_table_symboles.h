@@ -1,11 +1,10 @@
 #ifndef _FUSION_TABLE_SYMB_H_
 
 #define _FUSION_TABLE_SYMB_H_
-
-/*
-Load a symbol table of an elf file
-*/
-Elf32_Shdr load_table_sym(char * file_name);
+#include <stdio.h>
+#include <stdlib.h>
+#include <elf.h>
+#include "lecture.h"
 /*
 return :
   0 if the symbol is define in table_symb
