@@ -175,13 +175,9 @@ arguments:
 	char* name_file nom du fichier concerné
 */
 int main_relocation_table(char *name_file){
-	Elf32_Ehdr header = load_header(name_file);
+//	Elf32_Ehdr header = load_header(name_file);
 	elf32_section_reloc relocationtable;
 	load_relocation_table(name_file, &relocationtable);
-	if(relocationtable.size != NULL)
-		printf("yeah boiiiii\n");
-	else
-		printf("noooooooo\n");
 	print_relocation_table(name_file, relocationtable);
 	return 0;
 }

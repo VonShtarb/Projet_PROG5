@@ -34,7 +34,7 @@ void usage(char *name) {
 	fprintf(stderr, "Usage:\n"
 		"%s [ --help ] [ --host hostname ] [ --service servicename ] [ --debug file ] file\n\n"
 		"Loads a sample ARM code to a remote simulator. The --debug flag enables the output produced by "
-		"calls to the debug function in the named source file.\n" 
+		"calls to the debug function in the named source file.\n"
 		, name);
 }
 
@@ -64,7 +64,7 @@ void sample_run(char *hostname, char *servicename) {
 
 int main(int argc, char *argv[]) {
 	int opt;
-	char *hostname, *servicename;
+	//char *hostname, *servicename;
 
 	struct option longopts[] = {
 		{ "debug", required_argument, NULL, 'd' },
@@ -90,10 +90,10 @@ int main(int argc, char *argv[]) {
 	while ((opt = getopt_long(argc, argv, "S:H:d:h:A:B:C:D:R", longopts, NULL)) != -1) {
 		switch(opt) {
 		case 'H':
-			hostname = optarg;
+	//		hostname = optarg;
 			break;
 		case 'S':
-			servicename = optarg;
+		//	servicename = optarg;
 			break;
 		case 'h':
 			usage(argv[0]);

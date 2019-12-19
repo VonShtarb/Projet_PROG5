@@ -20,7 +20,7 @@ bin_PROGRAMS+=ARM_runner_example
 bin_PROGRAMS+=test_section
 bin_PROGRAMS+=fusion
 
-COMMON=debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h
+COMMON=debug.h debug.c util.h util.c type_liste_symb.c type_liste_symb.h lecture.c lecture.h affichage.c affichage.h mains.c mains.h gestion_endian.c gestion_endian.h elf32_reloc_table.c elf32_reloc_table.h
 
 EXTRA_DIST=filtre.pl
 SIMULATOR_INTERFACE=csapp.h csapp.c scanner.h scanner.l gdb_protocol.h gdb_protocol.c arm_simulator_interface.h arm_simulator_interface.c
@@ -30,4 +30,3 @@ test_section_SOURCES=$(COMMON) sectionTest.c
 fusion_SOURCES=$(COMMON) fusion.c
 
 EXTRA_DIST+=sample_run.sh
-

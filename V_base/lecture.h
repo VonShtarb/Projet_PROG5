@@ -23,7 +23,7 @@ Elf32_Ehdr load_header(char* name);
 Recupere une section du fichier elf
 Retour :        Elf32_Shdr : header d une section en big endian
 Arguments:      char* name : nom du fichier a ouvrir
-                int offset : le numero de bit a partir duquel charger le fichier 
+                int offset : le numero de bit a partir duquel charger le fichier
 */
 Elf32_Shdr load_section(char* filename, int offset);
 
@@ -72,7 +72,7 @@ Elf32_Sym load_symb(char* filename, int offset);
 /*
             Partie 1.4
 Recupere la table de symbole
-Arguments:      char* file: nom du fichier elf 
+Arguments:      char* file: nom du fichier elf
                 Elf32_Ehdr header: header du fichier elf en little endian
                 Elf32_Shdr section[]: tableau avec toutes les sections avec les sections en little endians
                 liste_elf32_sym* list_symb: liste qui contiendra tous les symboles (qui seront en big endian): represente la table de symbole

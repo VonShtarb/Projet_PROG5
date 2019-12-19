@@ -32,6 +32,10 @@ Demande d affichage d un header de section
 Arguments:		char* name_file: nom du fichier a ouvrir
  				char* val: soit - le numero de section
 				 				- le nom de la section
+retourne : -1 si le fichier n'a pas pu être ouvert
+           -2 si le second argument est NULL
+           -3 si la section n'existe pas
+            0 sinon
 */
 int main_section(char* name_file, char* val);
 

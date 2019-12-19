@@ -8,7 +8,7 @@ Retour :      Elf32_Ehdr : header fichier elf en big endian
 Arguments:    char* name : nom du fichier a ouvrir
 */
 Elf32_Ehdr load_header(char* name){
-    FILE* f;    
+    FILE* f;
     Elf32_Ehdr header;
     f=fopen(name, "rb");
     if (f== NULL){
@@ -27,7 +27,7 @@ Elf32_Ehdr load_header(char* name){
 Recupere une section du fichier elf
 Retour :        Elf32_Shdr : header d une section en big endian
 Arguments:      char* name : nom du fichier a ouvrir
-                int offset : le numero de bit a partir duquel charger le fichier 
+                int offset : le numero de bit a partir duquel charger le fichier
 */
 Elf32_Shdr load_section(char* filename, int offset){
     FILE* file;
@@ -40,7 +40,7 @@ Elf32_Shdr load_section(char* filename, int offset){
         res++;
     }
     fclose(file);
-    return sectionheader; 
+    return sectionheader;
 }
 /*
             Partie 1.2
@@ -111,11 +111,11 @@ Arguments:      char* filename: nom du fichier elf
                 int offset: le numero de bit a partir duquel se trouve le symbole
 */
 Elf32_Sym load_symb(char* filename, int offset){
-    Elf32_Sym symb; 
-    FILE* file; 
+    Elf32_Sym symb;
+    FILE* file;
     file=fopen(filename, "rb");
-    if (file){ 
-        int res; 
+    if (file){
+        int res;
         res=fseek(file, offset, SEEK_SET);
         res=fread(&symb, 1, sizeof(symb), file);
         res++;
@@ -127,7 +127,7 @@ Elf32_Sym load_symb(char* filename, int offset){
 /*
             Partie 1.4
 Recupere la table de symbole
-Arguments:      char* file: nom du fichier elf 
+Arguments:      char* file: nom du fichier elf
                 Elf32_Ehdr header: header du fichier elf en little endian
                 Elf32_Shdr section[]: tableau avec toutes les sections avec les sections en little endians
                 liste_elf32_sym* list_symb: liste qui contiendra tous les symboles (qui seront en big endian): represente la table de symbole
@@ -139,12 +139,12 @@ void load_tablesymbole(char* file,Elf32_Ehdr header, Elf32_Shdr section[], liste
     for (int i=0; i<header.e_shnum; i++){
         // SHT_SYMTAB ==2
         //On cherche la section qui contient les symboles
-        if (section[i].sh_type==SHT_SYMTAB){ 
+        if (section[i].sh_type==SHT_SYMTAB){
             offs = section[i].sh_offset;
             //Quand on l a trouve on charge chaque symbole, on l ajoute a la table de symbole et on prepare la lecture du prochain symbole
             while (offs <section[i].sh_offset+ section[i].sh_size){
-                symbole=load_symb(file, offs); 
-                errore=ajouter(list_symb, symbole);  
+                symbole=load_symb(file, offs);
+                errore=ajouter(list_symb, symbole);
                 offs = sizeof(symbole) + offs;
                 if(errore){}
             }
@@ -183,7 +183,7 @@ arguments:
     elf32_section_reloc* relocationtable la table qui contiendra toutes les sections
 */
 void load_relocation_table(char *filename, elf32_section_reloc* relocationtable){
-    
+
     FILE* file = fopen(filename, "rb");
     Elf32_Rela currentrela;
     Elf32_Shdr currentheader;
@@ -193,8 +193,8 @@ void load_relocation_table(char *filename, elf32_section_reloc* relocationtable)
     creer_section(relocationtable, 5);
     load_tablesection(filename, header, sectionheaders);
 
-    int placeholder = 0;
-    
+
+
     for(int i=0;i<header.e_shnum;i++){
         currentheader = sectionheaders[i];
         fseek(file, currentheader.sh_offset, SEEK_SET);
@@ -208,7 +208,8 @@ void load_relocation_table(char *filename, elf32_section_reloc* relocationtable)
             table.header=currentheader;
 
             for(int j=0;j<size;j++){
-                placeholder = fread(&currentrela, 1, sizeof(Elf32_Rela), file);
+                int placeholder = fread(&currentrela, 1, sizeof(Elf32_Rela), file);
+                if(placeholder){}
                 table.tabrela[j]=currentrela;
             }
 
