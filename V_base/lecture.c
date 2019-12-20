@@ -1,3 +1,5 @@
+
+
 #include "lecture.h"
 //On suppose que chaque fichier lu est en big endian
 
@@ -82,25 +84,6 @@ char * load_stringtable(char *name_file, int offset){
     res+=0;
     fclose(file);
     return stringtable;
-}
-
-
-/*
-            Partie 1.3
-Recupere le header d'une section
-Retour :        int : -1 si erreur, 0 sinon
-Arguments:      FILE *f: fichier elf ouvert au prealable
-                Elf32_Shdr section: section dont on doit recuperer le header en little endian
-                char *sectionHeader: Variable dans laquelle le header de la section sera mis en big endian
-*/
-int load_section_header(FILE *f, Elf32_Shdr section, char *sectionHeader) {
-    int n;
-    fseek(f, section.sh_offset, SEEK_SET);
-    n = fread(sectionHeader, 1, section.sh_entsize, f);
-    if(n == 0) {
-        return -1;
-    }
-    return 0;
 }
 
 /*

@@ -28,7 +28,7 @@ int taille(liste_elf32_sym p);
 /* lit l'element a l'indice ind*/
 /*Return 0 si ca s est bien passe et le symbole sera dans le 3eme argument
   Return 1 si il y a eu une erreur*/
-int get_symbol(liste_elf32_sym p, int ind, Elf32_Sym* elem, char * stringtable);
+int get_symbol(liste_elf32_sym p, int ind, Elf32_Sym* elem);
 
 /* Operations de modification */
 

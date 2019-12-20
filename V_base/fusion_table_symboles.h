@@ -7,17 +7,17 @@
 #include "lecture.h"
 /*
 return :
-  0 if the symbol is define in table_symb
-  1 if the symbol is present but not define
+  the index if the symbol is define in table_symb
   -1 if the symbol doesn't exist
 */
-int is_define_in_table(char * name_symb, Elf32_Shdr table_symb);
+int is_define_in_table(char * name_symb, liste_elf32_sym table_symb, char * stringtable);
 /*
 return a new symbol table with all symbols of table_symb1 and table_symb2
 */
 Elf32_Shdr fusion_table_symb(Elf32_Shdr table_symb1, Elf32_Shdr table_symb2);
 /*
 add a new entrie in file's strings table according to the offset
-and return a new offset for a next entrie
+and return the stringtable with new string added
 */
-int write_in_string_table(File * file, char * nom, int offset);
+char * write_in_string_table(char * file, char * nom);
+#endif
