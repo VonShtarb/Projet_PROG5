@@ -10,7 +10,7 @@ return :
   the index if the symbol is define in table_symb
   -1 if the symbol doesn't exist
 */
-int is_define_in_table(char * name_symb, liste_elf32_sym table_symb, char * stringtable);
+int is_define_in_table(char * name_symb,Elf32_Half ndx, liste_elf32_sym table_symb, char * stringtable);
 /*
 return a new symbol table with all symbols of table_symb1 and table_symb2
 */
